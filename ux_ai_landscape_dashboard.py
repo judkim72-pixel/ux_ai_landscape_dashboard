@@ -245,36 +245,68 @@ with tabs[3]:
     """)
 
     # -----------------------------
-    # 4️⃣ AEON Communications 내부 적용 예시
+    # 4️⃣ AEON Communications 내부 적용 예시 (수정 버전)
     # -----------------------------
     st.subheader("🏢 AEON Communications 내부 적용 예시")
 
     st.markdown("""
-    **AI UX 워크플로우 (AEON 내부 프로세스 예시)**  
+    **AI 기반 UX 프로세스 (AEON Communications 실제 워크플로우 예시)**  
 
-    1. **리서치 단계:** AI 도구(Dovetail, MonkeyLearn)로 인터뷰 전사 · 감정 분석  
-    2. **UX Writing 단계:** AI 초안 → UX Writer 검토 → 감성톤 보정  
-    3. **디자인 단계:** Figma AI 플러그인 → UI 자동생성 → 디자이너 수정  
-    4. **검증 단계:** 리서처가 A/B 테스트 데이터 해석 · 윤리성 검토  
-    5. **정책 반영:** 결과 패턴 을 AI Governance 가이드라인에 추가 · 공유  
+    1. **사용자 조사 및 데이터 수집**  
+       - AI 리서치 도구(Dovetail, MonkeyLearn 등)를 활용해 인터뷰 전사, 감정 분석, 행동 로그 분류  
+       - 주요 인사이트를 주제별(Needs, Pain Point, Context)로 자동 정리  
 
-    🔄 **피드백 루프:** AI → 인간 검증 → 조직 정책 → AI 재학습  
+    2. **인사이트 검토 및 기능 정의 단계**  
+       - UX 리서처가 AI가 정리한 데이터를 검증하고,  
+         이를 토대로 **기능 정의(Function Definition)** 및 **요구사항 정의(Requirement Specification)** 수행  
+       - 이 단계에서 AEON은 인간 중심 판단(HITL)을 통해 실제 사용 맥락과 비즈니스 목적을 조율  
+
+    3. **UX 설계 및 시나리오 모델링**  
+       - 기능별 사용자 플로우(Use Scenario)와 정보구조(IA)를 수동 설계  
+       - Figma는 **자동화 도구가 아닌 협업 기반의 검토 플랫폼**으로 활용되어,  
+         구조적 완성도와 커뮤니케이션 효율을 높이는 역할 수행  
+
+    4. **검증 단계**  
+       - UX 리서처와 디자이너가 함께 시나리오 테스트, 사용성 평가, 윤리적 검토 진행  
+       - AI 리서치 결과와 실제 사용자 피드백을 교차 검증  
+
+    5. **정책 반영 및 피드백 루프**  
+       - 결과물과 교훈을 AEON 내부의 AI Governance 문서화 체계에 반영  
+       - 다음 프로젝트의 기준 데이터로 재활용  
+
+    🔄 **피드백 루프:** AI → 인간 검증 → 기능 정의 → UI 설계 → 조직 정책 → AI 재학습  
     """)
 
     fig_aeon = go.Figure(data=[go.Sankey(
-        node=dict(label=["AI 리서치","UX Writer","디자이너","리서처 검증","Governance 피드백"],
-                  color=["#B0C4DE","#9370DB","#6A5ACD","#4682B4","#87CEFA"],
-                  pad=25,thickness=20,line=dict(color="rgba(0,0,0,0)",width=0)),
-        link=dict(source=[0,1,2,3],target=[1,2,3,4],value=[3,3,3,3],
-                  color=["rgba(106,90,205,0.35)"]*4)
+        node=dict(
+            label=["AI 리서치","UX 리서처 검증","기능·요구사항 정의","UI 설계","Governance 피드백"],
+            color=["#B0C4DE","#9370DB","#6A5ACD","#4682B4","#87CEFA"],
+            pad=25,thickness=20,line=dict(color="rgba(0,0,0,0)",width=0)
+        ),
+        link=dict(
+            source=[0,1,2,3],
+            target=[1,2,3,4],
+            value=[3,3,3,3],
+            color=["rgba(106,90,205,0.35)"]*4
+        )
     )])
-    fig_aeon.update_layout(title_text="AEON UX AI 프로세스 순환 구조",font_color="#1A1A1A",
-                           paper_bgcolor="white")
+    fig_aeon.update_layout(
+        title_text="AEON UX AI 프로세스 순환 구조",
+        font_color="#1A1A1A",
+        paper_bgcolor="white"
+    )
     st.plotly_chart(fig_aeon,use_container_width=True)
 
     st.markdown("""
-    **효과:** AI 도입 후 리서치 리포트 작성 시간 약 40% 단축, UX Writing 품질 균질화 달성.  
-    **향후 과제:** Governance 자동 로그 시스템 및 AI 투명성 지표화 도입.
+    **효과:**  
+    - AI가 리서치 효율을 높이고, 인간 전문가가 인사이트를 정제함으로써  
+      기능 정의의 정확도와 설계 일관성이 향상됨.  
+    - 프로젝트 평균 **기능 명세 확정까지의 소요 시간 30~40% 단축**.  
+    - UI 품질은 자동화보다 **인간 중심 판단(HITL) 기반**으로 유지.  
+
+    **향후 과제:**  
+    - AI 리서치 결과의 품질 측정 기준 정립  
+    - AI Governance 체계 내 ‘인사이트 신뢰도 지수’ 시각화 추진
     """)
 
 # ==========================================================
