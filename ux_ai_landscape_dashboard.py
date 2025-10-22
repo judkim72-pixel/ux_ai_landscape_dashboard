@@ -77,17 +77,21 @@ with tabs[0]:
         node=dict(
             pad=20,
             thickness=20,
-            line=dict(color="gray", width=0.5),
+            line=dict(color="rgba(0,0,0,0)", width=0),
             label=labels,
             color=["#7B68EE", "#8470FF", "#6A5ACD", "#9370DB", "#BA55D3",
-                   "#1E90FF", "#4682B4", "#8A2BE2", "#20B2AA", "#87CEFA"]
+                   "#1E90FF", "#4682B4", "#8A2BE2", "#20B2AA", "#87CEFA"],
+            font=dict(
+                color="#1A1A1A",  # 글자색(짙은 회색)
+                size=13  # 크기 조정
+            )
         ),
         link=dict(
             source=source,
             target=target,
             value=value,
             color=[
-                "rgba(106,90,205,0.5)" if v >= 5 else "rgba(106,90,205,0.25)"
+                "rgba(106,90,205,0.45)" if v >= 5 else "rgba(106,90,205,0.25)"
                 for v in value
             ]
         )
@@ -95,7 +99,9 @@ with tabs[0]:
 
     fig_sankey.update_layout(
         title_text="닐슨 노먼 그룹의 AI 활용 구조 (다대다 관계 기반)",
-        font_size=12
+        font=dict(color="#1A1A1A", size=12),  # ← 글씨를 선명하게 렌더링
+        paper_bgcolor="white",
+        plot_bgcolor="white"
     )
     st.plotly_chart(fig_sankey, use_container_width=True)
 
