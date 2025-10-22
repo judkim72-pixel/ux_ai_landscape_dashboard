@@ -107,10 +107,10 @@ with tabs[1]:
     """)
 
 # ==========================================================
-# ③ 프로세스 자동화 도구
+# ③ 프로세스 자동화 도구 (Treemap 확대 + 상세설명)
 # ==========================================================
 with tabs[2]:
-    st.header("⚙️ 프로세스 자동화 AI 도구 현황")
+    st.header("⚙️ AI 기반 프로세스 자동화 도구 현황")
 
     df_tools=pd.DataFrame({
         "분류":["워크플로우 자동화","콘텐츠 생성","UX 디자인 자동화",
@@ -120,16 +120,46 @@ with tabs[2]:
                     "UX Pilot, Uizard, Visily",
                     "Dovetail, MonkeyLearn, Notably",
                     "Lindy.ai, Relay, Gumloop",
-                    "Monday.com AI Blocks, Pyrus"]
+                    "Monday.com AI Blocks, Pyrus"],
+        "활용 목적":[
+            "다양한 앱을 연결해 자동으로 데이터 전달 및 트리거 실행 (조건 기반 워크플로우)",
+            "문서 요약·이메일 응답·리포트 작성 등 자동 텍스트 생성 지원",
+            "와이어프레임 자동 제안 및 초기 프로토타입 제작 가속화",
+            "인터뷰 전사·감정 분석·응답 분류 등 대규모 정성 데이터 자동 정리",
+            "AI가 스스로 목표 기반으로 실행·판단하는 지능형 보조 에이전트",
+            "조직 내 승인·리마인더·보고 자동화, 운영 효율성 향상"
+        ]
     })
     st.dataframe(df_tools,use_container_width=True)
-    fig_tr=px.treemap(df_tools,path=["분류","대표 도구"],title="AI 자동화 도구 카테고리별 분포")
+
+    fig_tr=px.treemap(df_tools,path=["분류","대표 도구"],values=[1]*len(df_tools),
+                      title="AI 자동화 도구 카테고리별 분포")
+    fig_tr.update_traces(textfont=dict(size=18))  # 텍스트 확대
     st.plotly_chart(fig_tr,use_container_width=True)
+
     st.markdown("""
-    **🔍 요약**  
-    - 워크플로우형(Zapier·Make)이 가장 폭넓게 활용.  
-    - 콘텐츠 생성형은 윤리적 리스크 관리가 필요.  
-    - 에이전트형 도구가 향후 운영 자동화 시장 주도 예상.  
+    **🔍 상세 해석**  
+    - **워크플로우 자동화(Zapier, Make, n8n)**  
+      → 비개발자도 손쉽게 데이터 흐름을 연결하고, 업무 조건에 따라 자동 실행 가능.  
+      예: Slack 메시지 → Google Sheets 자동 기록 → 이메일 전송.  
+
+    - **콘텐츠 생성(ChatGPT, Jasper)**  
+      → 텍스트 중심 자동화. UX Writing, 이메일 초안, 리포트 작성 등에 활용되나  
+        윤리적 검토(HITL)가 필수.  
+
+    - **UX 디자인 자동화(UXPilot, Uizard)**  
+      → 프로토타입 초안 자동 생성으로 시각화 속도 향상.  
+        단, 실제 설계 품질 확보는 인간 디자이너의 검토 단계 필요.  
+
+    - **리서치 분석(Dovetail, MonkeyLearn)**  
+      → 인터뷰 데이터 전사, 감정·주제별 태깅 자동화.  
+        대규모 사용자 데이터에서 패턴을 빠르게 추출.  
+
+    - **지능형 에이전트(Lindy.ai, Relay)**  
+      → 반복 업무를 자율 수행. 예: 회의 요약 후 이메일 발송, 데이터 수집·정리.  
+
+    - **운영 자동화(Monday.com, Pyrus)**  
+      → 프로젝트 승인 절차·리마인더·보고 자동화로 내부 운영 효율 20~30% 개선.  
     """)
 
 # ==========================================================
@@ -163,11 +193,7 @@ with tabs[3]:
     - 도구 승인·데이터 익명화·윤리 검토 위원회 운영 등으로 신뢰성 확보.
     """)
 
-    # ----------------------------
-    # AEON Circular Flow (원형 순환 구조)
-    # ----------------------------
     st.subheader("🏢 AEON Communications 내부 적용 예시")
-
     st.markdown("""
     **AEON의 실제 UX-AI 워크플로우**  
     1️⃣ 사용자 조사 및 데이터 수집 → 2️⃣ 인사이트 검증 및 기능·요구사항 정의 →  
@@ -176,15 +202,13 @@ with tabs[3]:
 
     steps=["AI 리서치","UX 리서처 검증","기능·요구사항 정의","UI 설계","Governance 피드백"]
     angles=np.linspace(0,2*np.pi,len(steps),endpoint=False)
-    x=np.cos(angles)
-    y=np.sin(angles)
+    x=np.cos(angles); y=np.sin(angles)
     fig_circ=go.Figure()
-    fig_circ.add_trace(go.Scatter(
-        x=x,y=y,mode="markers+text",
+    fig_circ.add_trace(go.Scatter(x=x,y=y,mode="markers+text",
         marker=dict(size=45,color=["#B0C4DE","#9370DB","#6A5ACD","#4682B4","#87CEFA"]),
-        text=steps,textposition="top center",textfont=dict(size=13,color="#1A1A1A")))
+        text=steps,textposition="top center",textfont=dict(size=14,color="#1A1A1A")))
     for i in range(len(steps)):
-        x0,y0=x[i],y[i];x1,y1=x[(i+1)%len(steps)],y[(i+1)%len(steps)]
+        x0,y0=x[i],y[i]; x1,y1=x[(i+1)%len(steps)],y[(i+1)%len(steps)]
         fig_circ.add_shape(type="path",
             path=f"M{x0},{y0} Q{(x0+x1)/2},{(y0+y1)/2+0.2} {x1},{y1}",
             line=dict(color="rgba(106,90,205,0.6)",width=3))
@@ -236,13 +260,10 @@ with tabs[4]:
 
     st.markdown("""
     **🔍 분석 요약**  
-    - **IDEO:** 인간 중심 디자인 원칙 내에서 AI를 실험적 도구로 활용. 윤리·창의 중심 HITL 모델.  
-    - **Superside:** AI 전사 자동화 시스템으로 생산성·규모 확장 성공.  
+    - **IDEO:** 인간 중심 디자인 철학 내 AI 실험. 윤리와 창의의 균형 추구.  
+    - **Superside:** 전사적 자동화 시스템으로 생산성 극대화 및 시장 대응 속도 향상.  
     - 2025년 Superside 프로젝트 수 IDEO 대비 6.6배.  
-    - 두 기업 모두 **‘AI + 인간 협력 구조’**를 유지하되 초점이 다름.  
-      IDEO=철학·창의 중심, Superside=성과·속도 중심.  
-
-    **📚 출처:** IDEO Blog(2023–2025) / Superside Reports(2024–2025)
+    - IDEO는 ‘실험적 사고’, Superside는 ‘규모의 혁신’이 중심축.  
+    **📚 출처:** IDEO Blog / Superside Reports (2023–2025)
     """)
-
-    st.info("요약: Superside는 속도 중심 AI 혁신, IDEO는 인간 중심 AI 혁신. 두 접근 모두 UX 산업의 핵심 벤치마크로 평가됨.")
+    st.info("요약: Superside는 속도 중심 AI 혁신, IDEO는 인간 중심 AI 혁신. 두 접근 모두 UX 산업의 미래 표준으로 평가됨.")
